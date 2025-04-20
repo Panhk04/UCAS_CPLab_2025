@@ -135,6 +135,9 @@ fragment FloatSuf
 
 ### 4.替换ANTLR的默认异常处理方法
 
+为了实现错误处理，我们在 `main.cpp`中调用`lexer.getNumberOfSyntaxErrors()`函数和`parser.getNumberOfSyntaxErrors()`来获取语法错误的数量,从而实现了我们自己的异常处理。同时，在该程序中还定义了一些antlr不具备的异常处理信息。
+
+
 ## 实验过程
 
 ### 1.熟悉ANTLR的安装和使用
@@ -425,11 +428,18 @@ constExp
 
 ## 总结与反思
 
-一开始接触CACT是非常手足无措的，因为我们从未接触过CACT语言，更没有使用过antlr工具，需要从头学习。
+一开始接触CACT是非常手足无措的，因为我们从未接触过CACT语言，更没有使用过antlr工具，需要从头学习。在最开始，我们错误地理解为所有的工作都可以通过编写g4文件，接着通过antlr生成对应代码。后来，经过对antlr的深入了解，发现antlr生成的仅仅是lexer和parser相关的函数，我们仍需主动地去调用antlr自动生成的代码来实现一个编译器的相关功能。
 
-后续，我们小组成员同心协力按照给出的CACT语法文档完成了g4文件的初步编写。但是发现不知道如何检查错误、调试代码。后续也是通过编写cmake脚本实现了测试的简化。
+后续，我们小组成员同心协力按照给出的CACT语法文档完成了g4文件的初步编写。但是发现不知道如何检查错误、调试代码。同时，原有的部分指令过于繁琐，为了提高效率，我们编写了一些脚本，实现了测试的简化。这些过程让我们受益良多
 
 同时，在这次实验中还遇到了一些问题，例如，尽管CACT语言是C语言的子集，但是在语法分析时，仍然需要注意一些细节问题，例如初值表达式必须是常数，这个问题我们在语法分析时没有考虑到，导致在测试时出现了一些错误。
 
 ## 参考文献
 
+- [antlr官方示例-C语言](https://github.com/antlr/grammars-v4/tree/master/c)
+
+- [ANTLR 4 Documentation](https://github.com/antlr/antlr4/blob/master/doc/index.md)
+
+- [ANTLR 4简明教程](https://www.bookstack.cn/read/antlr4-short-course/README.md)
+
+- 
