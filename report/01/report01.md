@@ -422,7 +422,7 @@ constExp
 
 ### 样例上运行结果
 
-![alt text](tess_pass.png)
+![alt text](test_pass.png)
 
 如图，当前的CACT可以正确通过所有给出的样例。
 
