@@ -55,7 +55,7 @@ int main(int argc, const char* argv[]) {
     //打印Laxer得到的token
 
     tree::ParseTree *tree = parser.compUnit();
-    std::cout << "tree: " << tree->toStringTree(&parser) << std::endl;
+    // std::cout << "tree: " << tree->toStringTree(&parser) << std::endl;
     //打印parser得到的AST
 
     std::cerr << lexer.getNumberOfSyntaxErrors() << std::endl;
