@@ -1,31 +1,19 @@
 #include <iostream>
+#include <fstream>
 
-// #include "antlr4-runtime.h"
+#include "antlr4-runtime.h"
 #include "tree/ErrorNode.h"
 
 #include "HelloLexer.h"
 #include "HelloParser.h"
 #include "HelloVisitor.h"
 
-using namespace antlr4;
-/*
- class Analysis : public HelloVisitor {
- public:
-     std::any visitR(HelloParser::RContext *context) {
-         visitChildren( context );
-        
-         std::cout << "enter rule [r]!" << std::endl;
-         std::cout << "the ID is: " << context->ID()->getText().c_str() << std::endl;
-         return nullptr;
-     }
+#include "SemanticAnalyzer.h"
+#include "IRCodeGen.h"
+#include "ASTtoIRVisitor.h"
 
+// using namespace antlr4;
 
-     std::any visitErrorNode(tree::ErrorNode * node) override {
-         std::cout << "visit error node!" << std::endl;
-         return nullptr;
-     }
- };
-*/
 int main(int argc, const char* argv[]) {
 
     if(argc < 2) {
@@ -41,30 +29,23 @@ int main(int argc, const char* argv[]) {
         return 2;
     }
 
-
-
+    // 1. ANTLR 解析
     ANTLRInputStream input(stream);
     HelloLexer lexer(&input);
     CommonTokenStream tokens(&lexer);
     HelloParser parser(&tokens);
+    HelloParser::CompUnitContext *tree = parser.compUnit(); // 假设 compUnit 是你的起始规则
 
-    tokens.fill();
-    for(auto token : tokens.getTokens()) {
-        std::cout << "token: " << token->toString() << std::endl;
-    }
-    //打印Laxer得到的token
+    // 2. 设置 LLVM IR 生成器
+    IRCodeGenerator irGenerator("myModule");
 
-    tree::ParseTree *tree = parser.compUnit();
-    // std::cout << "tree: " << tree->toStringTree(&parser) << std::endl;
-    //打印parser得到的AST
+    // 3. 创建 Visitor 并访问 AST
+    ASTtoIRVisitor visitor(irGenerator);
+    visitor.visitCompUnit(tree);
 
-    std::cerr << lexer.getNumberOfSyntaxErrors() << std::endl;
-    std::cerr << parser.getNumberOfSyntaxErrors() << std::endl;
-
-    if (lexer.getNumberOfSyntaxErrors() > 0 || parser.getNumberOfSyntaxErrors() > 0) {
-        std::cerr << "[ERROR] total number"<<lexer.getNumberOfSyntaxErrors() + parser.getNumberOfSyntaxErrors() << std::endl;
-        return 3;
-    }
+    // 4. 获取生成的 Module 并打印或进一步处理
+    llvm::Module &module = irGenerator.getModule();
+    module.print(llvm::outs(), nullptr); // 打印 IR 到标准输出
 
     return 0;
 }
