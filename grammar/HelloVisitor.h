@@ -8,7 +8,7 @@
 #pragma once
 
 
-#include "antlr4-runtime.h"
+#include "../deps/antlr4-runtime/antlr4-runtime.h"
 #include "HelloParser.h"
 
 

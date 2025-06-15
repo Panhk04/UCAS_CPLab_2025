@@ -98,7 +98,7 @@ constExp
     : number             // 仅允许字面值
     | '(' constExp ')'   // 允许括号包裹
     ;
-
+/*
 addExpConst
     : mulExpConst ( ('+'|'-') mulExpConst )*
     ;
@@ -116,7 +116,7 @@ primaryExpConst
     : '(' constExp ')'
     | number
     ;
-
+*/
 cond
     : lOrExp
     ;
