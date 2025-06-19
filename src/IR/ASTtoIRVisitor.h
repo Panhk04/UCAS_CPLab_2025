@@ -1,6 +1,7 @@
 #pragma once
 
-#include "HelloVisitor.h"
+#include <string.h>
+#include "../../grammar/HelloVisitor.h"
 #include "IRCodeGen.h"
 #include "symbolTable.h" // For GlobalBlock, BlockInfo, FuncInfo, SymbolInfo, DataType
 #include "utils/Utils.h"// For DataType, if it's defined there, or its own header
