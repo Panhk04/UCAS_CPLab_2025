@@ -40,7 +40,7 @@ public:
 
     bool isIsinitial() const;
 
-    void printPrefixName(std::ostream &OS) const;
+    void printPrefixName(std::ostream &OS) const override;
     void print(std::ostream &OS) const override;
 
     /******判断是全局变量还是函数******/

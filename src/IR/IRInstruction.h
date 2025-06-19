@@ -19,6 +19,8 @@ class RegisterNode;
 
 class Register;
 
+class IRBasicBlock;
+
 class IRInstruction : public IRUser {
 private:
     IRBasicBlock *Parent;
@@ -172,5 +174,31 @@ public:
     };
 };
 
+// Memory allocation instruction
+class IRAllocaInst : public IRInstruction {
+private:
+    IRType *allocatedType;
+    IRValue *arraySize;
+
+public:
+    IRAllocaInst(IRType *Ty, IRValue *ArraySize, const std::string &Name = "", 
+                 IRBasicBlock *Parent = nullptr);
+    
+    IRType *getAllocatedType() const { return allocatedType; }
+    IRValue *getArraySize() const { return arraySize; }
+    
+    IRInstruction *clone() const override;
+    bool mayWriteToMemory() const override { return false; }
+    
+    void print(std::ostream &OS) const override;
+    
+    static inline bool classof(const IRAllocaInst *) { return true; }
+    static inline bool classof(const IRInstruction *I) {
+        return I->getOpcode() == Alloca;
+    }
+    static inline bool classof(const IRValue *V) {
+        return classof(static_cast<const IRInstruction*>(V));
+    }
+};
 
 #endif//COMPILER_IRINSTRUCTION_H

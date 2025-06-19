@@ -16,6 +16,29 @@
 #include "iTerminators.h"
 #include "utils/Register.h"
 
+// IRAllocaInst implementation
+IRAllocaInst::IRAllocaInst(IRType *Ty, IRValue *ArraySize, const std::string &Name, IRBasicBlock *Parent)
+    : IRInstruction(Ty, Alloca, Name, Parent), allocatedType(Ty), arraySize(ArraySize) {
+    if (ArraySize) {
+        addOperand(ArraySize);
+    }
+}
+
+IRInstruction *IRAllocaInst::clone() const {
+    return new IRAllocaInst(allocatedType, arraySize, getName());
+}
+
+void IRAllocaInst::print(std::ostream &OS) const {
+    printPrefixName(OS);
+    OS << " = alloca ";
+    allocatedType->print(OS);
+    if (arraySize) {
+        OS << ", ";
+        arraySize->getType()->print(OS);
+        arraySize->printPrefixName(OS);
+    }
+}
+
 IRInstruction::IRInstruction(IRType *Ty, unsigned int iType, const std::string &Name, IRBasicBlock *parent)
         : IRUser(Ty, InstructionVal, Name) {
     Live = new LiveVariableInst(this);
