@@ -20,3 +20,12 @@ make -j
 ## test on samples
 
 run `test.sh` to test on samples in `test` folder.
+
+## set the local development environment
+
+install the llvm development libraries
+
+```bash
+sudo apt update
+sudo apt install llvm-dev clang libclang-dev
+```
